@@ -1,11 +1,11 @@
-"""Entry point — works with both `uv run main.py` and `python main.py`."""
+"""Entry point - works with both `uv run main.py` and `python main.py`."""
 
 from __future__ import annotations
 
 import sys
 import tkinter as tk
 
-# Windows high-DPI awareness — must be called BEFORE tk.Tk()
+# Windows high-DPI awareness - must be called BEFORE tk.Tk()
 if sys.platform == "win32":
     try:
         import ctypes

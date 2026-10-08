@@ -13,7 +13,7 @@ from typing import Protocol
 
 from app.geometry import Point, Rect, Segment
 
-# Shape protocol (structural typing — no ABC needed)
+# Shape protocol (structural typing - no ABC needed)
 
 
 class Shape(Protocol):
