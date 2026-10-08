@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 from app.geometry import Point, Rect, Segment
 
-# Algorithm enum + registry
+# [ Algorithm enum + registry ]
 
 
 class Algorithm(Enum):
@@ -34,7 +34,7 @@ def _get_registry() -> dict:
     }
 
 
-# Result types
+# [ Result types ]
 
 
 class ClipStatus(Enum):
@@ -65,7 +65,7 @@ class ClipResult:
     total_count: int
 
 
-# Shared degenerate filter
+# [ Shared degenerate filter ]
 
 _MIN_LENGTH = 1.0  # px - segments shorter than this are treated as rejected
 
@@ -79,7 +79,7 @@ def _clip_segment_filtered(segment: Segment, window: Rect, algorithm: Algorithm)
     return raw
 
 
-# clip_shape - the single clipping entry point
+# [ clip_shape - the single clipping entry point ]
 
 
 def clip_shape(shape: Shape, window: Rect, algorithm: Algorithm) -> ClipResult:
@@ -123,7 +123,7 @@ def clip_shape(shape: Shape, window: Rect, algorithm: Algorithm) -> ClipResult:
     )
 
 
-# Polyline / arc merging helpers
+# [ Polyline / arc merging helpers ]
 
 
 def _build_polylines(

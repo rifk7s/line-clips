@@ -72,7 +72,7 @@ class CanvasView(tk.Canvas):
         self.bind("<B1-Motion>", self._on_motion)
         self.bind("<ButtonRelease-1>", self._on_release)
 
-    # Mouse events
+    # [ Mouse events ]
 
     def _on_press(self, event: tk.Event) -> None:  # type: ignore[type-arg]
         self._drag_start = Point(float(event.x), float(event.y))
@@ -90,7 +90,7 @@ class CanvasView(tk.Canvas):
         self._drag_start = None
         self._on_drag_done(p0, p1)
 
-    # Rubber-band preview during drag
+    # [ Rubber-band preview during drag ]
 
     def _draw_preview(self, p0: Point, p1: Point) -> None:
         self.delete(_TAG_PREVIEW)
@@ -164,7 +164,7 @@ class CanvasView(tk.Canvas):
                 smooth=False,
             )
 
-    # Idempotent redraw
+    # [ Idempotent redraw ]
 
     def redraw(
         self,
@@ -206,7 +206,7 @@ class CanvasView(tk.Canvas):
                 smooth=False,
             )
 
-    # Drawing helpers
+    # [ Drawing helpers ]
 
     def _draw_halo(self, shape: AnyShape) -> None:
         segs = shape.to_segments()

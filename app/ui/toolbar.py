@@ -43,7 +43,7 @@ class Toolbar(ttk.Frame):
 
         self._build()
 
-    # Build UI
+    # [ Build UI ]
 
     def _build(self) -> None:
         # Panel Buat
@@ -111,7 +111,7 @@ class Toolbar(ttk.Frame):
         thick_cb.grid(row=1, column=1, padx=4, pady=2)
         thick_cb.bind("<<ComboboxSelected>>", lambda _e: self._on_attr_change())
 
-    # Property accessors used by main_window / canvas_view
+    # [ Property accessors used by main_window / canvas_view ]
 
     @property
     def active_tools(self) -> dict[str, bool]:

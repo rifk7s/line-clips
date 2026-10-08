@@ -37,7 +37,7 @@ class MainWindow:
         self._bind_keys()
         self._refresh()
 
-    # Layout
+    # [ Layout ]
 
     def _build_layout(self) -> None:
         self._root.columnconfigure(0, weight=1)
@@ -127,7 +127,7 @@ class MainWindow:
             root.bind_all("<Control-Y>", lambda e: self._redo())
             root.bind_all("<Control-Shift-Delete>", lambda e: self._clear())
 
-    # Callbacks
+    # [ Callbacks ]
 
     def _on_drag_done(self, p0: Point, p1: Point) -> None:
         tools = self._toolbar.active_tools
@@ -186,7 +186,7 @@ class MainWindow:
             self._toolbar.algorithm,
         )
 
-    # Undo / Redo / Clear
+    # [ Undo / Redo / Clear ]
 
     def _undo(self) -> None:
         if self._scene.undo():
@@ -206,7 +206,7 @@ class MainWindow:
         self._panels.clear_selection()
         self._schedule_refresh()
 
-    # Refresh pipeline
+    # [ Refresh pipeline ]
 
     def _schedule_refresh(self) -> None:
         """Coalesce multiple triggers into one refresh per event-loop turn."""

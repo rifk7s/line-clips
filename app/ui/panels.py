@@ -115,7 +115,7 @@ class SidePanels(ttk.Frame):
             anchor="w", padx=4, pady=(2, 4)
         )
 
-    # Public update API
+    # [ Public update API ]
 
     def update_lists(
         self,
@@ -160,7 +160,7 @@ class SidePanels(ttk.Frame):
         finally:
             self._syncing = False
 
-    # Internal selection handlers
+    # [ Internal selection handlers ]
 
     def _on_before_select(self, _event: tk.Event) -> None:  # type: ignore[type-arg]
         if self._syncing:
