@@ -62,7 +62,7 @@ class SidePanels(ttk.Frame):
 
     def __init__(
         self,
-        parent: tk.Widget,
+        parent: tk.Misc,
         on_select: Callable[[int], None],
     ) -> None:
         super().__init__(parent)

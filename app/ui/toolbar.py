@@ -18,7 +18,7 @@ class Toolbar(ttk.Frame):
 
     def __init__(
         self,
-        parent: tk.Widget,
+        parent: tk.Misc,
         on_tool_change: Callable[[], None],
         on_algo_change: Callable[[], None],
         on_attr_change: Callable[[], None],
@@ -104,7 +104,7 @@ class Toolbar(ttk.Frame):
         thick_cb = ttk.Combobox(
             attr_frame,
             textvariable=self.var_thickness,
-            values=THICKNESS_OPTIONS,
+            values=[str(t) for t in THICKNESS_OPTIONS],
             state="readonly",
             width=10,
         )

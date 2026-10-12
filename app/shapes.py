@@ -17,8 +17,11 @@ from app.geometry import Point, Rect, Segment
 
 
 class Shape(Protocol):
-    color: str
-    width: int
+    # Read-only properties so frozen dataclasses satisfy the protocol
+    @property
+    def color(self) -> str: ...
+    @property
+    def width(self) -> int: ...
 
     def to_segments(self) -> list[Segment]: ...
     def is_closed(self) -> bool: ...

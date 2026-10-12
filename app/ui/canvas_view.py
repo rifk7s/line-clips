@@ -51,7 +51,7 @@ class CanvasView(tk.Canvas):
 
     def __init__(
         self,
-        parent: tk.Widget,
+        parent: tk.Misc,
         on_drag_done: Callable[[Point, Point], None],
         get_tools: Callable[[], dict[str, bool]],
         get_color: Callable[[], str],
