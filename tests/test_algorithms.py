@@ -12,7 +12,7 @@ import pytest
 
 from app.clipping import Algorithm, ClipStatus, clip_shape
 from app.geometry import Point, Rect, Segment
-from app.shapes import Line
+from app.shapes import Box, Line
 
 WIN = Rect(50, 50, 200, 150)  # standard test window
 
@@ -162,3 +162,22 @@ def test_algorithm_equivalence():
 
     # Allow a tiny tolerance for degenerate edge cases at boundaries
     assert mismatches <= 5, f"Too many None/non-None mismatches: {mismatches}/{total}"
+
+
+# [ clip_shape() on Box ]
+
+
+@pytest.mark.parametrize("algo", ALGOS, ids=ALGO_IDS)
+def test_box_partial_counts_visible_sides(algo):
+    # Sticks out past the right edge: top, bottom, left visible; right rejected
+    result = clip_shape(Box(Rect(100, 80, 300, 120)), WIN, algo)
+    assert result.status == ClipStatus.PARTIAL
+    assert result.visible_count == 3
+
+
+@pytest.mark.parametrize("algo", ALGOS, ids=ALGO_IDS)
+def test_box_on_window_boundary_is_full(algo):
+    # Kotak + Area Clipping from the same drag share the same rect
+    result = clip_shape(Box(WIN), WIN, algo)
+    assert result.status == ClipStatus.FULL
+    assert result.visible_count == 4
