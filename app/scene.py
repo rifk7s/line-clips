@@ -45,6 +45,15 @@ class Scene:
         self._push_undo()
         self.shapes = self.shapes + tuple(new_shapes)
 
+    def apply_drag(self, new_shapes: list[AnyShape], window: Rect | None) -> None:
+        """Apply everything one finished drag produced as a single undo step."""
+        if not new_shapes and window is None:
+            return
+        self._push_undo()
+        self.shapes = self.shapes + tuple(new_shapes)
+        if window is not None:
+            self.clip_window = window
+
     def set_window(self, rect: Rect) -> None:
         """Replace (or set) the clipping window. Clears redo stack."""
         self._push_undo()

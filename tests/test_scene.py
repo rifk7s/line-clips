@@ -100,3 +100,18 @@ class TestSceneWindowReplacement:
         scene.set_window(w1)
         scene.set_window(w2)
         assert scene.clip_window == w2
+
+
+class TestSceneApplyDrag:
+    def test_shapes_and_window_are_one_undo_step(self):
+        scene = Scene()
+        scene.apply_drag([_line()], Rect(0, 0, 100, 100))
+        scene.undo()
+        assert scene.shapes == ()
+        assert scene.clip_window is None
+        assert scene.can_undo() is False
+
+    def test_empty_drag_does_not_push(self):
+        scene = Scene()
+        scene.apply_drag([], None)
+        assert scene.can_undo() is False

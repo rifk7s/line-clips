@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from app.shapes import Shape
 
 from app.geometry import Point, Rect, Segment
+from app.shapes import Circle
 
 # [ Algorithm enum + registry ]
 
@@ -118,7 +119,8 @@ def clip_shape(shape: Shape, window: Rect, algorithm: Algorithm) -> ClipResult:
     return ClipResult(
         status=status,
         polylines=polylines,
-        visible_count=_count_arcs(polylines) if shape.is_closed() else visible_count,
+        # Circle: visible arcs. Box: visible sides (0-4). Line: always 1 here (unused by UI)
+        visible_count=len(polylines) if isinstance(shape, Circle) else visible_count,
         total_count=total,
     )
 
@@ -223,10 +225,6 @@ def _build_polylines(
             polylines.append(tuple(pts))
 
     return tuple(polylines)
-
-
-def _count_arcs(polylines: tuple[tuple[Point, ...], ...]) -> int:
-    return len(polylines)
 
 
 def _approx_equal(a: Point, b: Point, eps: float = 1e-6) -> bool:

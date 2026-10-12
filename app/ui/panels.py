@@ -68,6 +68,7 @@ class SidePanels(ttk.Frame):
         super().__init__(parent)
         self._on_select = on_select
         self._shape_count = 0  # number of real shapes currently displayed
+        self._has_results = False  # False while after-list shows "Belum ada area clipping"
         self._syncing = False  # re-entrancy guard
 
         fixed_font = tkfont.nametofont("TkFixedFont")
@@ -124,6 +125,7 @@ class SidePanels(ttk.Frame):
     ) -> None:
         """Repopulate both listboxes. results=None means no window defined."""
         self._shape_count = len(shapes)
+        self._has_results = results is not None
 
         # Before list
         self._before_lb.delete(0, tk.END)
@@ -151,12 +153,10 @@ class SidePanels(ttk.Frame):
             if 0 <= shape_idx < self._before_lb.size():
                 self._before_lb.selection_set(shape_idx)
                 self._before_lb.see(shape_idx)
-            if 0 <= shape_idx < self._after_lb.size():
-                # After-list may show "Belum ada area clipping" as row 0 → skip
-                after_size = self._after_lb.size()
-                if after_size == self._shape_count and shape_idx < after_size:
-                    self._after_lb.selection_set(shape_idx)
-                    self._after_lb.see(shape_idx)
+            # After-list may show "Belum ada area clipping" as row 0 → skip
+            if self._has_results and 0 <= shape_idx < self._after_lb.size():
+                self._after_lb.selection_set(shape_idx)
+                self._after_lb.see(shape_idx)
         finally:
             self._syncing = False
 
@@ -181,8 +181,9 @@ class SidePanels(ttk.Frame):
         if not sel:
             return
         idx = sel[0]
-        # If after-list shows "Belum ada area clipping", size != shape_count
-        if self._after_lb.size() != self._shape_count:
+        # The "Belum ada area clipping" row is not a shape
+        if not self._has_results:
+            self._after_lb.selection_clear(0, tk.END)
             return
         if idx >= self._shape_count:
             return

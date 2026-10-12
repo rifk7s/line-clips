@@ -11,7 +11,7 @@ if sys.platform == "win32":
         import ctypes
 
         ctypes.windll.shcore.SetProcessDpiAwareness(1)
-    except OSError:
+    except (OSError, AttributeError):
         pass  # not available on older Windows, safe to ignore
 
 

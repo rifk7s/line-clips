@@ -156,14 +156,10 @@ class MainWindow:
             new_shapes.append(Circle(Point(cx, cy), r, color, thick))
 
         # Area Clipping: replaces window; does NOT go into shapes list
-        if tools["area_clip"] and rect.width >= 3 and rect.height >= 3:
-            if new_shapes:
-                # Add shapes first, then set window (two undo steps intentionally merged)
-                self._scene.add_shapes(new_shapes)
-                new_shapes = []
-            self._scene.set_window(rect)
-        elif new_shapes:
-            self._scene.add_shapes(new_shapes)
+        window = rect if tools["area_clip"] and rect.width >= 3 and rect.height >= 3 else None
+
+        # One drag = one undo step, even when it adds shapes and sets the window
+        self._scene.apply_drag(new_shapes, window)
 
         self._selected_idx = None
         self._panels.clear_selection()
@@ -227,8 +223,12 @@ class MainWindow:
         else:
             self._results = [clip_shape(s, window, algo) for s in shapes]
 
-        # Update panels
+        # Update panels (rebuilding the lists drops their selection, so restore it)
         self._panels.update_lists(shapes, self._results)
+        if self._selected_idx is not None and self._selected_idx < len(shapes):
+            self._panels.set_selection(self._selected_idx)
+        else:
+            self._selected_idx = None
 
         # Update canvas
         self._canvas.redraw(shapes, window, self._results, self._selected_idx, algo)
